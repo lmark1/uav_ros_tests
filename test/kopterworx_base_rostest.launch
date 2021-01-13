@@ -1,0 +1,30 @@
+<launch>
+    <env name="ROSCONSOLE_FORMAT" value="[${severity}] [${time}] ${logger}: ${message}"/>
+    <env name="UAV_NAMESPACE" value="red_test"/>
+
+    <!-- Testing node -->
+    <test 
+        test-name="uav_stack_test" pkg="uav_ros_tests" type="uav_stack_test" 
+        time-limit="600.0"/>
+
+    <!-- sim_vehicle -->
+    <include file="$(find ardupilot_gazebo)/launch/sim_vehicle.launch">
+        <arg name="enable_console" value="false"/>
+        <env name="SITL_RITW_TERMINAL" value="screen -D -m"/>
+    </include>
+
+    <!-- mavros -->
+    <include file="$(find ardupilot_gazebo)/launch/mavros.launch"/>
+
+    <!-- kopterworx Gazebo simulation-->
+    <include file="$(find ardupilot_gazebo)/launch/kopterworx.launch">
+        <arg name="gui" value="false"/>
+    </include>
+
+    <!-- Standard PID UAV control -->
+    <include file="$(find uav_ros_control)/launch/pid_carrot.launch"/>
+
+    <!-- Standard Toppra UAV tracker -->
+    <include file="$(find uav_ros_tracker)/launch/topp_tracker.launch"/>
+
+</launch>

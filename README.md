@@ -6,4 +6,4 @@
 
 ## Summary
 
-The main testing repository for the "uav_ros_stack" package.
+The main testing repository for the [uav_ros_stack](https://github.com/lmark1/uav_ros_stack).
