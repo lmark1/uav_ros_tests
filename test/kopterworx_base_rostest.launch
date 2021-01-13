@@ -1,7 +1,6 @@
 <launch>
     <env name="ROSCONSOLE_FORMAT" value="[${severity}] [${time}] ${logger}: ${message}"/>
-    <env name="UAV_NAMESPACE" value="red_test"/>
-
+   
     <!-- Testing node -->
     <test 
         test-name="uav_stack_test" pkg="uav_ros_tests" type="uav_stack_test" 
