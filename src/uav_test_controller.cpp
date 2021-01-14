@@ -1,4 +1,5 @@
 #include <uav_ros_tests/uav_test_controller.hpp>
+#include <uav_ros_control/util/uav_util.hpp>
 
 uav_tests::UAVTestController::UAVTestController()
   : m_odom_handler(m_nh, "odometry"), m_start_time(ros::Time::now())
@@ -28,6 +29,11 @@ void uav_tests::UAVTestController::loop_timer(
     break;
 
   case TAKEOFF:
+    if (uav_util::automatic_takeoff(m_nh, 2)) {
+      change_state(FINISHED_STATE);
+    } else {
+      ROS_WARN_THROTTLE(1.0, "[UAVTestController] Takeoff unsuccessful.");
+    }
     break;
 
   case ERROR_STATE:
@@ -52,13 +58,13 @@ void uav_tests::UAVTestController::change_state(const uav_tests::UAVTestState &n
   switch (new_state) {
 
   case TAKEOFF:
-    m_curr_state = TAKEOFF;
     ROS_INFO_STREAM("[UAVTestController] Change to " << m_curr_state);
+    m_curr_state = TAKEOFF;
     break;
 
   case ERROR_STATE:
-    m_curr_state = ERROR_STATE;
     ROS_FATAL("[UAVTestController] Test Failed!");
+    m_curr_state = ERROR_STATE;
     break;
 
   default:

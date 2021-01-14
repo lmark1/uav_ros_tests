@@ -27,10 +27,14 @@ std::ostream& operator<<(std::ostream & os, UAVTestState & s)
     os << "TAKEOFF";
     break;
 
+  case FINISHED_STATE:
+    os << "FINISHED STATE";
+    break;
+
   case ERROR_STATE:
     os << "ERROR STATE";
     break;
-    
+
   default:
     os << "Unknwon state " << s;
     break;
@@ -71,7 +75,8 @@ private:
 
   static constexpr auto TEST_TIMEOUT = 120.0;
   static constexpr auto MESSAGE_THROTTLE = 1.0;
-
+  static constexpr auto TAKEOFF_HEIGHT = 2.0;
+  
   ros::NodeHandle m_nh;
   UAVTestState m_curr_state = IDLE;
   ros::Time m_start_time;
