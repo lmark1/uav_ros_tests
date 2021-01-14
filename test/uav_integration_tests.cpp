@@ -1,15 +1,24 @@
 #include <gtest/gtest.h>
 #include <ros/ros.h>
 
-#include <uav_ros_lib/topic_handler.hpp>
 #include <uav_ros_tests/uav_test_controller.hpp>
 
 std::shared_ptr<uav_tests::UAVTestController> uav_test_controller_ptr;
 
 TEST(UAVTest, uav_integration_test)
 {
-  ros::Duration(30.0).sleep();
-  EXPECT_TRUE(true);
+  bool result = false;
+  while (ros::ok()) {
+    ros::spinOnce();
+    ros::Duration(0.01).sleep();
+
+    if (uav_test_controller_ptr->isFinished()) {
+      result = uav_test_controller_ptr->getResult();
+      break;
+    }
+  }
+
+  EXPECT_TRUE(result);
 }
 
 int main(int argc, char **argv)

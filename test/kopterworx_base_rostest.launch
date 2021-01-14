@@ -4,7 +4,9 @@
     <!-- Testing node -->
     <test 
         test-name="uav_stack_test" pkg="uav_ros_tests" type="uav_stack_test" 
-        time-limit="600.0"/>
+        time-limit="600.0" ns="$(env UAV_NAMESPACE)">
+        <remap from="odometry" to="mavros/local_position/odom"/>
+    </test>
 
     <!-- sim_vehicle -->
     <include file="$(find ardupilot_gazebo)/launch/sim_vehicle.launch">
