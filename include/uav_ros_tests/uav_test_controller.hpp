@@ -15,14 +15,13 @@ namespace uav_tests {
  */
 enum UAVTestState { IDLE, TAKEOFF, FINISHED_STATE, ERROR_STATE };
 
-std::ostream& operator<<(std::ostream & os, UAVTestState & s)
+std::ostream &operator<<(std::ostream &os, UAVTestState &s)
 {
-  switch (s)
-  {
+  switch (s) {
   case IDLE:
     os << "IDLE";
     break;
-  
+
   case TAKEOFF:
     os << "TAKEOFF";
     break;
@@ -50,11 +49,11 @@ std::ostream& operator<<(std::ostream & os, UAVTestState & s)
 class UAVTestController
 {
 public:
-  UAVTestController();
+  explicit UAVTestController(ros::NodeHandle &nh);
 
   /**
    * @brief Check if test are finished.
-   * 
+   *
    * @return true if tests are finished.
    * @return false if tests are in progress.
    */
@@ -62,21 +61,20 @@ public:
 
   /**
    * @brief Get the test result.
-   * 
+   *
    * @return true If test passed.
    * @return false If test failed.
    */
   bool getResult();
 
 private:
-
-  void change_state(const UAVTestState& new_state);
+  void change_state(const UAVTestState &new_state);
   void loop_timer(const ros::TimerEvent &event);
 
   static constexpr auto TEST_TIMEOUT = 120.0;
   static constexpr auto MESSAGE_THROTTLE = 1.0;
   static constexpr auto TAKEOFF_HEIGHT = 2.0;
-  
+
   ros::NodeHandle m_nh;
   UAVTestState m_curr_state = IDLE;
   ros::Time m_start_time;

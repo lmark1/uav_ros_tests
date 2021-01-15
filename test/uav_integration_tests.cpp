@@ -24,7 +24,9 @@ TEST(UAVTest, uav_integration_test)
 int main(int argc, char **argv)
 {
   ros::init(argc, argv, "uav_integration_test");
-  uav_test_controller_ptr = std::make_shared<uav_tests::UAVTestController>();
+  ros::NodeHandle nh;
+  uav_test_controller_ptr = std::make_shared<uav_tests::UAVTestController>(nh);
+
   testing::InitGoogleTest(&argc, argv);
   return RUN_ALL_TESTS();
 }

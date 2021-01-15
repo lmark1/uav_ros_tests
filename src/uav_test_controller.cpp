@@ -1,8 +1,8 @@
 #include <uav_ros_tests/uav_test_controller.hpp>
 #include <uav_ros_control/util/uav_util.hpp>
 
-uav_tests::UAVTestController::UAVTestController()
-  : m_odom_handler(m_nh, "odometry"), m_start_time(ros::Time::now())
+uav_tests::UAVTestController::UAVTestController(ros::NodeHandle &nh)
+  : m_nh(nh), m_odom_handler(m_nh, "odometry"), m_start_time(ros::Time::now())
 {
   m_loop_timer =
     m_nh.createTimer(ros::Rate(10), &uav_tests::UAVTestController::loop_timer, this);
@@ -10,7 +10,7 @@ uav_tests::UAVTestController::UAVTestController()
 
 void uav_tests::UAVTestController::loop_timer(
   [[maybe_unused]] const ros::TimerEvent &event)
-{  
+{
   if ((ros::Time::now() - m_start_time).toSec() > TEST_TIMEOUT) {
     ROS_FATAL("[UAVTestController] Timeout reached!");
     change_state(ERROR_STATE);
@@ -25,7 +25,7 @@ void uav_tests::UAVTestController::loop_timer(
   ROS_INFO_STREAM_THROTTLE(MESSAGE_THROTTLE, "[UAVTestController] At " << m_curr_state);
   switch (m_curr_state) {
   case IDLE:
-    change_state(TAKEOFF);
+    //change_state(TAKEOFF);
     break;
 
   case TAKEOFF:
@@ -55,10 +55,10 @@ bool uav_tests::UAVTestController::getResult() { return m_curr_state == FINISHED
 
 void uav_tests::UAVTestController::change_state(const uav_tests::UAVTestState &new_state)
 {
+  ROS_INFO_STREAM("[UAVTestController] Change to " << new_state);
   switch (new_state) {
 
   case TAKEOFF:
-    ROS_INFO_STREAM("[UAVTestController] Change to " << m_curr_state);
     m_curr_state = TAKEOFF;
     break;
 
