@@ -4,7 +4,7 @@
     <!-- Testing node -->
     <test 
         test-name="uav_stack_integration_test" pkg="uav_ros_tests" type="uav_stack_test" 
-        time-limit="600.0" ns="$(env UAV_NAMESPACE)">
+        time-limit="6000.0" ns="$(env UAV_NAMESPACE)">
         <remap from="odometry" to="mavros/local_position/odom"/>
     </test>
 
