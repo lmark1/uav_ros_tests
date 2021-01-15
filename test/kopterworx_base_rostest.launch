@@ -23,7 +23,9 @@
     </include>
 
     <!-- Standard PID UAV control -->
-    <include file="$(find uav_ros_control)/launch/pid_carrot.launch"/>
+    <include file="$(find uav_ros_control)/launch/pid_carrot.launch">
+        <arg name="manual_takeoff" value="true"/>
+    </include>
 
     <!-- Standard Toppra UAV tracker -->
     <include file="$(find uav_ros_tracker)/launch/topp_tracker.launch"/>
