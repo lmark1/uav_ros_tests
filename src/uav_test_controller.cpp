@@ -1,6 +1,33 @@
 #include <uav_ros_tests/uav_test_controller.hpp>
 #include <uav_ros_control/util/uav_util.hpp>
 
+std::ostream &uav_tests::operator<<(std::ostream &os, const UAVTestState &s)
+{
+  switch (s) {
+  case IDLE:
+    os << "IDLE";
+    break;
+
+  case TAKEOFF:
+    os << "TAKEOFF";
+    break;
+
+  case FINISHED_STATE:
+    os << "FINISHED STATE";
+    break;
+
+  case ERROR_STATE:
+    os << "ERROR STATE";
+    break;
+
+  default:
+    os << "Unknwon state " << s;
+    break;
+  }
+
+  return os;
+}
+
 uav_tests::UAVTestController::UAVTestController(ros::NodeHandle &nh)
   : m_nh(nh), m_odom_handler(m_nh, "odometry"), m_start_time(ros::Time::now())
 {
@@ -25,7 +52,7 @@ void uav_tests::UAVTestController::loop_timer(
   ROS_INFO_STREAM_THROTTLE(MESSAGE_THROTTLE, "[UAVTestController] At " << m_curr_state);
   switch (m_curr_state) {
   case IDLE:
-    //change_state(TAKEOFF);
+    change_state(TAKEOFF);
     break;
 
   case TAKEOFF:
@@ -53,13 +80,19 @@ bool uav_tests::UAVTestController::isFinished()
 
 bool uav_tests::UAVTestController::getResult() { return m_curr_state == FINISHED_STATE; }
 
-void uav_tests::UAVTestController::change_state(const uav_tests::UAVTestState &new_state)
+void uav_tests::UAVTestController::change_state(const UAVTestState &new_state)
 {
-  ROS_INFO_STREAM("[UAVTestController] Change to " << new_state);
+  ROS_INFO_STREAM(
+    "[UAVTestController] Change to " << new_state);
   switch (new_state) {
 
   case TAKEOFF:
     m_curr_state = TAKEOFF;
+    break;
+
+  case FINISHED_STATE:
+    ROS_INFO("[UAVTestController] Tests finished!");
+    m_curr_state = FINISHED_STATE;
     break;
 
   case ERROR_STATE:

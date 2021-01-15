@@ -15,32 +15,7 @@ namespace uav_tests {
  */
 enum UAVTestState { IDLE, TAKEOFF, FINISHED_STATE, ERROR_STATE };
 
-std::ostream &operator<<(std::ostream &os, UAVTestState &s)
-{
-  switch (s) {
-  case IDLE:
-    os << "IDLE";
-    break;
-
-  case TAKEOFF:
-    os << "TAKEOFF";
-    break;
-
-  case FINISHED_STATE:
-    os << "FINISHED STATE";
-    break;
-
-  case ERROR_STATE:
-    os << "ERROR STATE";
-    break;
-
-  default:
-    os << "Unknwon state " << s;
-    break;
-  }
-
-  return os;
-}
+std::ostream &operator<<(std::ostream &os, const UAVTestState &s);
 
 /**
  * @brief Class Used for conducting UAV Integraation tests.

@@ -5,7 +5,7 @@
 
 std::shared_ptr<uav_tests::UAVTestController> uav_test_controller_ptr;
 
-TEST(UAVTest, uav_integration_test)
+TEST(UAVTest, uav_stack_integration_test)
 {
   bool result = false;
   while (ros::ok()) {
