@@ -46,7 +46,7 @@ private:
   void change_state(const UAVTestState &new_state);
   void loop_timer(const ros::TimerEvent &event);
 
-  static constexpr auto TEST_TIMEOUT = 6000.0;
+  static constexpr auto TEST_TIMEOUT = 1200.0;
   static constexpr auto MESSAGE_THROTTLE = 1.0;
   static constexpr auto TAKEOFF_HEIGHT = 2.0;
 
