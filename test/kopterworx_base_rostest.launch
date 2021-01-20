@@ -1,7 +1,6 @@
 <launch>
     <env name="ROSCONSOLE_FORMAT" value="[${severity}] [${time}] ${logger}: ${message}"/>
     <arg name="sim_vehicle_delay" default="10.0" />
-    <arg name="mavproxy_delay" default="60.0" />
 
     <!-- Testing node -->
     <test 
@@ -14,19 +13,9 @@
     <include file="$(find ardupilot_gazebo)/launch/sim_vehicle.launch">
         <arg name="enable_console" value="false"/>
         <arg name="node_start_delay" value="$(arg sim_vehicle_delay)"/>
-        <arg name="additional_arguments" value="--no-mavproxy"/>
+        <arg name="additional_arguments" value="-m --force-connected -m --daemon -m --show-errors"/>
         <env name="SITL_RITW_TERMINAL" value="/bin/bash"/>
     </include>
-
-    <!-- If running standalone MAVProxy this will supress unnecessary INFO log messages-->
-    <node pkg="rosservice" type="rosservice" name="mavconn_logger" 
-        args="call /$(env UAV_NAMESPACE)/mavros/set_logger_level ros.rosconsole_bridge.mavconn warn" 
-        launch-prefix="bash -c 'sleep $(arg mavproxy_delay); $0 $@'"/>
-
-    <!-- Run MAVProxy separately -->
-    <node name="mavproxy_startup" pkg="ardupilot_gazebo" type="mavproxy_start.sh" 
-        args="14550 14551 5760 5501 1 50 --force-connected --daemon --show-errors" output="screen"
-        launch-prefix="bash -c 'sleep $(arg mavproxy_delay); $0 $@'"/>
 
     <!-- mavros -->
     <include file="$(find ardupilot_gazebo)/launch/mavros.launch"/>
