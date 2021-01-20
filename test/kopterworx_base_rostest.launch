@@ -25,7 +25,7 @@
 
     <!-- Run MAVProxy separately -->
     <node name="mavproxy_startup" pkg="ardupilot_gazebo" type="mavproxy_start.sh" 
-        args="14550 14550 5760 5501 1 50" output="screen"
+        args="14550 14551 5760 5501 1 50 --force-connected --daemon --show-errors" output="screen"
         launch-prefix="bash -c 'sleep $(arg mavproxy_delay); $0 $@'"/>
 
     <!-- mavros -->
