@@ -8,6 +8,7 @@
         test-name="uav_stack_integration_test" pkg="uav_ros_tests" type="uav_stack_test" 
         time-limit="6000.0" ns="$(env UAV_NAMESPACE)">
         <remap from="odometry" to="mavros/local_position/odom"/>
+        <remap from="global_odometry" to="mavros/global_position/local"/>
     </test>
 
     <!-- Run sim_vehicle.py - This only runs plain arducopter binary in bash -->

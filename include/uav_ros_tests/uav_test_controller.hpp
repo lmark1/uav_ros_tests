@@ -6,14 +6,14 @@
 #include <ros/ros.h>
 #include <uav_ros_lib/topic_handler.hpp>
 #include <nav_msgs/Odometry.h>
-
+#include <mavros_msgs/State.h>
 namespace uav_tests {
 
 /**
  * @brief This enum defines states for the UAVTsestController to cycle through.
  *
  */
-enum UAVTestState { IDLE, TAKEOFF, FINISHED_STATE, ERROR_STATE };
+enum UAVTestState { IDLE, TAKEOFF, POST_TAKEOFF, FINISHED_STATE, ERROR_STATE };
 
 std::ostream &operator<<(std::ostream &os, const UAVTestState &s);
 
@@ -46,7 +46,7 @@ private:
   void change_state(const UAVTestState &new_state);
   void loop_timer(const ros::TimerEvent &event);
 
-  static constexpr auto TEST_TIMEOUT = 1200.0;
+  static constexpr auto TEST_TIMEOUT = 600.0;
   static constexpr auto MESSAGE_THROTTLE = 1.0;
   static constexpr auto TAKEOFF_HEIGHT = 2.0;
 
@@ -56,6 +56,8 @@ private:
 
   ros::Timer m_loop_timer;
   ros_util::TopicHandler<nav_msgs::Odometry> m_odom_handler;
+  ros_util::TopicHandler<nav_msgs::Odometry> m_global_odom_handler;
+  ros_util::TopicHandler<mavros_msgs::State> m_mstate_handler;
 };
 }// namespace uav_tests
 

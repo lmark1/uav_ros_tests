@@ -6,6 +6,7 @@
         name="uav_stack_test" pkg="uav_ros_tests" type="uav_test_controller_node" 
         ns="$(env UAV_NAMESPACE)" output="screen">
         <remap from="odometry" to="mavros/local_position/odom"/>
+        <remap from="global_odometry" to="mavros/global_position/local"/>
     </node>
 
     <!-- sim_vehicle -->
